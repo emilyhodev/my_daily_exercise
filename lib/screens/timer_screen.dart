@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TimerScreen extends StatelessWidget {
   const TimerScreen({super.key});
@@ -8,6 +9,16 @@ class TimerScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            context.go('/');
+          },
+        ),
+        title: Text('Timer'),
+        centerTitle: true,
+      ),
       backgroundColor: Color.fromARGB(255, 175, 255, 216),
       body: Column(
         children: [
@@ -28,8 +39,14 @@ class TimerScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Sets 5/10"),
-              Text("Remaining Time: 10:00"),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Sets 5/10", style: textTheme.labelLarge),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Remains: 10:00", style: textTheme.labelLarge),
+              ),
             ],
           )
         ],

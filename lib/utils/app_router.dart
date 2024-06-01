@@ -22,5 +22,9 @@ final appRouter = GoRouter(
         ),
       ],
     ),
+    GoRoute(
+          path: '/fullscreentimer',
+          builder: (context, state) => TimerScreen(),
+        ),
   ],
 );
