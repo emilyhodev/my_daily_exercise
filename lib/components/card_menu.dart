@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_exercise/components/card_widget.dart';
-import 'package:my_daily_exercise/components/image_picker.dart';
 import 'package:my_daily_exercise/components/timer_settings_dialog.dart';
-import 'dart:io';
-import 'package:flutter/material.dart';
 
 class CardMenu extends StatelessWidget {
+  const CardMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
@@ -16,7 +14,7 @@ class CardMenu extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return TimerSettingsDialog();
+              return const TimerSettingsDialog();
             },
           );
         } else if (value == 'manual_update') {
@@ -26,20 +24,20 @@ class CardMenu extends StatelessWidget {
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        PopupMenuItem<String>(
+        const PopupMenuItem<String>(
           value: 'edit',
           child: Text('Edit'),
         ),
-        PopupMenuItem<String>(
+        const PopupMenuItem<String>(
           value: 'manual_update',
           child: Text('Manual Update'),
         ),
-        PopupMenuItem<String>(
+        const PopupMenuItem<String>(
           value: 'delete',
           child: Text('Delete'),
         ),
       ],
-      icon: Icon(Icons.more_vert),
+      icon: const Icon(Icons.more_vert),
     );
   }
 }
