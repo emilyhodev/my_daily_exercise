@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_daily_exercise/models/exercise.dart';
+
+import '../home_controller.dart';
 
 class ExerciseTimerDialog extends StatefulWidget {
   const ExerciseTimerDialog({
@@ -24,8 +27,9 @@ class _ExerciseTimerDialogState extends State<ExerciseTimerDialog> {
   @override
   void initState() {
     super.initState();
-    _workController.text = widget.exercise?.workTime.toString() ?? '10';
-    _restController.text = widget.exercise?.restTime.toString() ?? '10';
+    _titleController.text = widget.exercise?.title ?? '';
+    _workController.text = widget.exercise?.workTime.toInt().toString() ?? '10';
+    _restController.text = widget.exercise?.restTime.toInt().toString() ?? '10';
     _cyclesController.text = widget.exercise?.cycles.toString() ?? '10';
     _setsController.text = widget.exercise?.sets.toString() ?? '2';
   }
@@ -66,27 +70,11 @@ class _ExerciseTimerDialogState extends State<ExerciseTimerDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: () {
-                    // Perform action on "Save" button press
-                    // Retrieve the entered values
-                    final title = _titleController.text;
-                    final workTime = int.tryParse(_workController.text) ?? 0;
-                    final restTime = int.tryParse(_restController.text) ?? 0;
-                    final cycles = int.tryParse(_cyclesController.text) ?? 0;
-                    final sets = int.tryParse(_setsController.text) ?? 0;
-
-                    // Print the values (you can modify this code to perform other actions)
-                    print('Title: $title');
-                    print('Work Time: $workTime');
-                    print('Rest Time: $restTime');
-                    print('Cycles: $cycles');
-                    print('Sets: $sets');
-
-                    // Close the dialog
-                    context.pop();
-                  },
-                  child: const Text('Save'),
+                Consumer(
+                  builder: (context, ref, child) => TextButton(
+                    onPressed: () => _onSave(ref).then((_) => context.pop()),
+                    child: const Text('Save'),
+                  ),
                 ),
               ],
             ),
@@ -94,6 +82,23 @@ class _ExerciseTimerDialogState extends State<ExerciseTimerDialog> {
         ),
       ),
     );
+  }
+
+  Future<Exercise> _onSave(WidgetRef ref) async {
+    final title = _titleController.text;
+    final workTime = double.tryParse(_workController.text) ?? 0;
+    final restTime = double.tryParse(_restController.text) ?? 0;
+    final cycles = int.tryParse(_cyclesController.text) ?? 0;
+    final sets = int.tryParse(_setsController.text) ?? 0;
+
+    return await ref.read(homeControllerProvider.notifier).upsertExercise(
+          id: widget.exercise?.id,
+          title: title,
+          workTime: workTime,
+          restTime: restTime,
+          cycles: cycles,
+          sets: sets,
+        );
   }
 
   Widget buildRow(String label, TextEditingController controller) {

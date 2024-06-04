@@ -15,6 +15,7 @@ dependencies:
   go_router: ^14.1.4
   image_picker: ^0.8.4+4
   json_annotation: ^4.9.0
+  realm: ^2.3.0
 
 
 dev_dependencies:

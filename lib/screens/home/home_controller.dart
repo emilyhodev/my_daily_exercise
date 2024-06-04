@@ -1,44 +1,82 @@
 import 'package:my_daily_exercise/models/exercise.dart';
 import 'package:my_daily_exercise/screens/home/home_state.dart';
-import 'package:my_daily_exercise/utils/constants.dart';
+import 'package:my_daily_exercise/services/local_db/exercise_realm.dart';
+import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_controller.g.dart';
 
 @riverpod
 class HomeController extends _$HomeController {
+  late final ExerciseRealm _exerciseRealm;
+
   @override
   HomeState build() {
-    return const HomeState(
-      exercises: [
-        Exercise(
-          id: '1',
-          title: 'Leg Bridge Exercise',
-        ),
-        Exercise(
-          id: '2',
-          title: 'Leg Bridge Exercise',
-        ),
-      ],
-    );
+    _exerciseRealm = ref.watch(exerciseRealmProvider);
+    final subscription = _exerciseRealm.changes().listen((changes) {
+      final exercises = changes.results.toList();
+      state = state.copyWith(exercises: exercises);
+    });
+
+    ref.onDispose(() => subscription.cancel());
+
+    return const HomeState();
   }
 
-  void toggleProgress(String exerciseId, WeekDay day) {
+  Future<bool> toggleCompletionDate(ObjectId exerciseId, DateTime date) async {
+    date = date.toUtc();
+
     // 1. find the index of the exercise
     final exercises = [...state.exercises];
     final index = exercises.indexWhere((e) => e.id == exerciseId);
-    if (index == -1) return;
+    if (index == -1) return false;
 
-    // 2. update the progress and create a new exercise copy
+    // 2. update the DB
     final exercise = exercises[index];
-    final progress = {...exercise.progress};
-    progress.contains(day) ? progress.remove(day) : progress.add(day);
-    final updatedExercise = exercise.copyWith(progress: progress);
+    return _exerciseRealm.update(() {
+      return exercise.completedDates.contains(date)
+          ? exercise.completedDates.remove(date)
+          : exercise.completedDates.add(date);
+    });
+  }
 
-    // 3. replace the exercise in the list with the updated one
-    exercises[index] = updatedExercise;
+  Future<Exercise> upsertExercise({
+    ObjectId? id,
+    String? title,
+    double? workTime,
+    double? restTime,
+    int? cycles,
+    int? sets,
+    String? description,
+    String? image,
+  }) {
+    final record = ref.read(exerciseRealmProvider).find(id);
+    if (record == null) {
+      final exercise = Exercise(
+        id ?? ObjectId(),
+        title ?? 'New Exercise',
+        workTime: workTime ?? 10.0,
+        restTime: restTime ?? 10.0,
+        cycles: cycles ?? 10,
+        sets: sets ?? 2,
+        description: description,
+        image: image,
+      );
+      return ref.read(exerciseRealmProvider).insert(exercise);
+    }
 
-    // 4. update the state
-    state = state.copyWith(exercises: exercises);
+    return ref.read(exerciseRealmProvider).update(
+      () {
+        record.title = title ?? record.title;
+        record.workTime = workTime ?? record.workTime;
+        record.restTime = restTime ?? record.restTime;
+        record.cycles = cycles ?? record.cycles;
+        record.sets = sets ?? record.sets;
+        record.description = description;
+        record.image = image;
+
+        return record;
+      },
+    );
   }
 }

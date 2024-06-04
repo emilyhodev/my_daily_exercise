@@ -1,23 +1,23 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_daily_exercise/utils/constants.dart';
+import 'package:realm/realm.dart';
 
-part 'exercise.freezed.dart';
-part 'exercise.g.dart';
+part 'exercise.realm.dart';
 
-@freezed
-class Exercise with _$Exercise {
-  const factory Exercise({
-    required String id,
-    required String title,
-    @Default('') String description,
-    @Default(10.0) double workTime,
-    @Default(5.0) double restTime,
-    @Default(10) int cycles,
-    @Default(2) int sets,
-    @Default(<WeekDay>{}) Set<WeekDay> progress,
-    String? image,
-  }) = _Exercise;
+/// DB Model for Exercise
+@RealmModel()
+class _Exercise {
+  // Required fields
+  @PrimaryKey()
+  late ObjectId id;
+  late String title;
 
-  factory Exercise.fromJson(Map<String, dynamic> json) =>
-      _$ExerciseFromJson(json);
+  // Optional fields with default values
+  late double workTime = 10.0;
+  late double restTime = 10.0;
+  late int cycles = 10;
+  late int sets = 2;
+  late Set<DateTime> completedDates; // Realm will init this as an empty set
+
+  // Optional fields
+  String? description;
+  String? image;
 }

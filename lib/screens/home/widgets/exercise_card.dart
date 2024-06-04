@@ -5,7 +5,6 @@ import 'package:my_daily_exercise/models/exercise.dart';
 import 'package:my_daily_exercise/screens/home/widgets/exercise_timer_dialog.dart';
 import 'package:my_daily_exercise/screens/home/widgets/exercise_update_dialog.dart';
 import 'package:my_daily_exercise/utils/app_router.dart';
-import 'package:my_daily_exercise/utils/constants.dart';
 import 'package:my_daily_exercise/utils/convenient_extensions.dart';
 
 import '../home_controller.dart';
@@ -30,10 +29,12 @@ class ExerciseCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /// Leading icon
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.image, size: 40),
+                /// Image picker button
+                IconButton(
+                  onPressed: () {
+                    // TODO: Implement image picker
+                  },
+                  icon: const Icon(Icons.image, size: 40),
                 ),
 
                 /// Title and progress
@@ -55,10 +56,10 @@ class ExerciseCard extends StatelessWidget {
                             "Progress ",
                             style: textTheme.labelSmall,
                           ),
-                          for (final day in WeekDay.values)
+                          for (final date in DateTime.now().currentWeek())
                             Icon(
                               Icons.square_rounded,
-                              color: exercise.progress.contains(day)
+                              color: exercise.completedDates.contains(date)
                                   ? Colors.greenAccent
                                   : Colors.redAccent,
                               size: 10,
@@ -113,21 +114,21 @@ class ExerciseCard extends StatelessWidget {
       builder: (_) => Consumer(
         builder: (_, ref, __) {
           // Get the progress of the exercise
-          final progress = ref.watch(
+          final completedDates = ref.watch(
             homeControllerProvider.select((state) {
               final e = state.exercises.firstWhere(
                 (e) => e.id == exercise.id,
                 orElse: () => exercise,
               );
-              return e.progress;
+              return e.completedDates;
             }),
           );
 
           return ExerciseUpdateDialog(
-            progress: progress,
-            onDayToggle: (day) => ref
+            completedDates: completedDates,
+            onDayToggle: (date) => ref
                 .read(homeControllerProvider.notifier)
-                .toggleProgress(exercise.id, day),
+                .toggleCompletionDate(exercise.id, date),
           );
         },
       ),
