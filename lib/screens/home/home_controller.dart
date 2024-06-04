@@ -9,14 +9,16 @@ part 'home_controller.g.dart';
 class HomeController extends _$HomeController {
   @override
   HomeState build() {
+    // todo: final exercises = db.get();
+
     return const HomeState(
       exercises: [
         Exercise(
-          id: '1',
+          id: '0',
           title: 'Leg Bridge Exercise',
         ),
         Exercise(
-          id: '2',
+          id: '1',
           title: 'Leg Bridge Exercise',
         ),
       ],
@@ -39,6 +41,42 @@ class HomeController extends _$HomeController {
     exercises[index] = updatedExercise;
 
     // 4. update the state
+    state = state.copyWith(exercises: exercises);
+  }
+
+  void createExercise(
+      String title,
+      String description,
+      double workTime,
+      double restTime,
+      int cycles,
+      int sets,
+      Set<WeekDay> progress,
+      String? image) {
+
+    final exercise = Exercise(
+      id: state.exercises.length.toString(),
+      title: title,
+      cycles: cycles,
+      description: description,
+      image: image,
+      progress: progress,
+      restTime: restTime,
+      sets: sets,
+      workTime: workTime,
+    );
+
+    final newExercises = [...state.exercises, exercise];
+    state = state.copyWith(exercises: newExercises);
+  }
+
+  void deleteExercise(String exerciseId) {
+    // 1. find the index of the exercise
+    final exercises = [...state.exercises];
+    final index = exercises.indexWhere((e) => e.id == exerciseId);
+    if (index == -1) return;
+    //remove exercise
+    exercises.removeAt(index);
     state = state.copyWith(exercises: exercises);
   }
 }

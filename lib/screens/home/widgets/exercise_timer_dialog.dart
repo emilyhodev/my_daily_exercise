@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_daily_exercise/models/exercise.dart';
+import 'package:my_daily_exercise/screens/home/home_controller.dart';
 
 class ExerciseTimerDialog extends StatefulWidget {
   const ExerciseTimerDialog({
@@ -66,27 +68,47 @@ class _ExerciseTimerDialogState extends State<ExerciseTimerDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: () {
-                    // Perform action on "Save" button press
-                    // Retrieve the entered values
-                    final title = _titleController.text;
-                    final workTime = int.tryParse(_workController.text) ?? 0;
-                    final restTime = int.tryParse(_restController.text) ?? 0;
-                    final cycles = int.tryParse(_cyclesController.text) ?? 0;
-                    final sets = int.tryParse(_setsController.text) ?? 0;
+                Consumer(
+                  builder: (context, ref, child) {
+                    return TextButton(
+                      onPressed: () {
+                        // Perform action on "Save" button press
+                        // Retrieve the entered values
+                        final title = _titleController.text;
+                        final workTime =
+                            double.tryParse(_workController.text) ?? 0;
+                        final restTime =
+                            double.tryParse(_restController.text) ?? 0;
+                        final cycles =
+                            int.tryParse(_cyclesController.text) ?? 0;
+                        final sets = int.tryParse(_setsController.text) ?? 0;
 
-                    // Print the values (you can modify this code to perform other actions)
-                    print('Title: $title');
-                    print('Work Time: $workTime');
-                    print('Rest Time: $restTime');
-                    print('Cycles: $cycles');
-                    print('Sets: $sets');
+                        // Print the values (you can modify this code to perform other actions)
+                        print('Title: $title');
+                        print('Work Time: $workTime');
+                        print('Rest Time: $restTime');
+                        print('Cycles: $cycles');
+                        print('Sets: $sets');
+                        //pass to controller
+                        ref
+                            .read(homeControllerProvider.notifier)
+                            .createExercise(
+                              title,
+                              "",
+                              workTime,
+                              restTime,
+                              cycles,
+                              sets,
+                              {},
+                              null,
+                            );
 
-                    // Close the dialog
-                    context.pop();
+                        // Close the dialog
+                        context.pop();
+                      },
+                      child: const Text('Save'),
+                    );
                   },
-                  child: const Text('Save'),
                 ),
               ],
             ),
