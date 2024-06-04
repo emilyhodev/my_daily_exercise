@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_daily_exercise/models/exercise.dart';
-
-import '../home_controller.dart';
+import 'package:my_daily_exercise/screens/home/home_controller.dart';
 
 class ExerciseTimerDialog extends StatefulWidget {
   const ExerciseTimerDialog({

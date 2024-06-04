@@ -71,14 +71,16 @@ class ExerciseCard extends StatelessWidget {
                 ),
 
                 /// Popup menu
-                Align(
+                Consumer(builder: (context, ref, child) { return Align(
                   alignment: Alignment.topRight,
                   child: ExerciseCardPopupButton(
                     onEdit: () => _showEditDialog(context),
                     onManualUpdate: () => _showUpdateDialog(context),
-                    onDelete: () {},
+                    onDelete: () => {
+                      ref.read(homeControllerProvider.notifier).deleteExercise(exercise.id),
+                    },
                   ),
-                ),
+                ); },),
               ],
             ),
 
