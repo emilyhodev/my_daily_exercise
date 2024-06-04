@@ -13,7 +13,7 @@ class BaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Daily Exercise'),
+        title: const Text('My Daily Exercise'),
         toolbarHeight: 50,
       ),
       // bottomNavigationBar: BottomNavigationBar(
@@ -30,9 +30,8 @@ class BaseScreen extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  
-                  leading: Icon(Icons.home),
-                  title: Text('HOME'),
+                  leading: const Icon(Icons.home),
+                  title: const Text('HOME'),
                   // subtitle: Text('subtitle'),
                   // trailing: Icon(Icons.home),
                   onTap: () {
@@ -60,7 +59,6 @@ class BaseScreen extends StatelessWidget {
             // ),
           ],
         ),
-        
       ),
       body: child,
     );

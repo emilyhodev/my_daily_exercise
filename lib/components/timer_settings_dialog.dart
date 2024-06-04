@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 class TimerSettingsDialog extends StatefulWidget {
+  const TimerSettingsDialog({super.key});
+
   @override
-  _TimerSettingsDialogState createState() => _TimerSettingsDialogState();
+  State<TimerSettingsDialog> createState() => _TimerSettingsDialogState();
 }
 
 class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
@@ -37,22 +40,22 @@ class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Title',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             buildRow('Work Time', workController, defaultValue: '10'),
             buildRow('Rest Time', restController, defaultValue: '10'),
             buildRow('Cycles', cyclesController, defaultValue: '10'),
             buildRow('Sets', setsController, defaultValue: '2'),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -76,7 +79,7 @@ class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
                     // Close the dialog
                     Navigator.of(context).pop();
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
               ],
             ),
@@ -92,7 +95,7 @@ class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          icon: Icon(Icons.remove),
+          icon: const Icon(Icons.remove),
           onPressed: () {
             setState(() {
               int value = int.tryParse(controller.text) ?? 0;
@@ -114,7 +117,7 @@ class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () {
             setState(() {
               int value = int.tryParse(controller.text) ?? 0;
