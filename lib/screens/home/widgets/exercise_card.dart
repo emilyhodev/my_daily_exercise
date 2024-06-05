@@ -80,7 +80,7 @@ class ExerciseCard extends StatelessWidget {
                         onManualUpdate: () => _showUpdateDialog(context),
                         onDelete: () => ref
                             .read(homeControllerProvider.notifier)
-                            .deleteExercise(exercise.id),
+                            .deleteExercise(exercise),
                       ),
                     );
                   },
@@ -96,7 +96,10 @@ class ExerciseCard extends StatelessWidget {
                   backgroundColor: Colors.greenAccent,
                 ),
                 child: const Text("Start Now"),
-                onPressed: () => context.push(AppRoute.fullScreenTimer.path),
+                onPressed: () => context.push(
+                  AppRoute.fullScreenTimer.path,
+                  extra: exercise,
+                ),
               ),
             ),
           ],

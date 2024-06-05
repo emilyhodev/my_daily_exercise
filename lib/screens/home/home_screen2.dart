@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_daily_exercise/screens/home/home_controller.dart';
 import 'package:my_daily_exercise/screens/home/widgets/exercise_card.dart';
-import 'package:my_daily_exercise/screens/home/widgets/exercise_timer_dialog.dart';
 
 class HomeScreen2 extends StatelessWidget {
   const HomeScreen2({super.key});
@@ -25,13 +24,13 @@ class HomeScreen2 extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => const ExerciseTimerDialog(),
-        ),
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => showDialog(
+      //     context: context,
+      //     builder: (context) => const ExerciseTimerDialog(),
+      //   ),
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }

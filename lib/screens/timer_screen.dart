@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_daily_exercise/models/exercise.dart';
+
+import 'timer/widgets/hour_glass.dart';
 
 class TimerScreen extends StatelessWidget {
-  const TimerScreen({super.key});
+  const TimerScreen({
+    super.key,
+    required this.exercise,
+  });
+
+  final Exercise exercise;
 
   @override
   Widget build(BuildContext context) {
@@ -11,31 +19,30 @@ class TimerScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             context.go('/');
           },
         ),
-        title: Text('Timer'),
+        title: Text(exercise.title),
         centerTitle: true,
       ),
-      backgroundColor: Color.fromARGB(255, 175, 255, 216),
+      backgroundColor: const Color.fromARGB(255, 175, 255, 216),
       body: Column(
         children: [
           Text("Work", style: textTheme.displayLarge),
-          // Text("10", style: TextStyle(fontSize: 250)),
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 1000,
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Text("10"),
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) => SizedBox(
+                width: constraints.maxWidth / 2,
+                child: const FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text("10"),
+                ),
               ),
             ),
           ),
+          const HourGlass(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

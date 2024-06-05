@@ -16,6 +16,10 @@ dependencies:
   image_picker: ^0.8.4+4
   json_annotation: ^4.9.0
   realm: ^2.3.0
+  flame: ^1.18.0
+  flame_forge2d: ^0.18.1
+  bezier: ^1.2.0
+  vector_math: ^2.1.4
 
 
 dev_dependencies:

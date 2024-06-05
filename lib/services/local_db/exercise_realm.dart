@@ -44,4 +44,10 @@ class ExerciseRealm {
       () => writeCB(),
     );
   }
+
+  Future<void> delete(Exercise exercise) {
+    return _realm.writeAsync(() {
+      return _realm.delete(exercise);
+    });
+  }
 }

@@ -80,15 +80,7 @@ class HomeController extends _$HomeController {
     );
   }
 
-  void deleteExercise(String exerciseId) {
-    // TODO(@emilyhodev): delete exercise from the DB
-
-    // 1. find the index of the exercise
-    final exercises = [...state.exercises];
-    final index = exercises.indexWhere((e) => e.id == exerciseId);
-    if (index == -1) return;
-    //remove exercise
-    exercises.removeAt(index);
-    state = state.copyWith(exercises: exercises);
+  Future<void> deleteExercise(Exercise exercise) {
+    return ref.read(exerciseRealmProvider).delete(exercise);
   }
 }
