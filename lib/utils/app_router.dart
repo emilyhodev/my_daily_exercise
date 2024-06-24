@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:my_daily_exercise/models/exercise.dart';
 import 'package:my_daily_exercise/screens/home/home_screen2.dart';
 
 import '../screens/base_screen.dart';
@@ -18,13 +19,17 @@ final appRouter = GoRouter(
         ),
         GoRoute(
           path: AppRoute.timer.path,
-          builder: (context, state) => const TimerScreen(),
+          builder: (context, state) => TimerScreen(
+            exercise: state.extra as Exercise,
+          ),
         ),
       ],
     ),
     GoRoute(
       path: AppRoute.fullScreenTimer.path,
-      builder: (context, state) => const TimerScreen(),
+      builder: (context, state) => TimerScreen(
+        exercise: state.extra as Exercise,
+      ),
     ),
   ],
 );

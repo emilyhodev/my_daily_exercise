@@ -44,6 +44,11 @@ class _TimerSettingsDialogState extends State<TimerSettingsDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Text(
+              'Add/Edit Timer',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 100),
+            ),
             TextField(
               controller: titleController,
               decoration: const InputDecoration(

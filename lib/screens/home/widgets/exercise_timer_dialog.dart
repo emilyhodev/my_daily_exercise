@@ -54,6 +54,11 @@ class _ExerciseTimerDialogState extends State<ExerciseTimerDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            const Text(
+              'Timer Setting',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 25),
+            ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(

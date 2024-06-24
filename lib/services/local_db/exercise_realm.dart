@@ -41,7 +41,15 @@ class ExerciseRealm {
 
   Future<T> update<T>(T Function() writeCB) {
     return _realm.writeAsync(
-      () => writeCB(),
+      () {
+        return writeCB();
+      },
     );
+  }
+
+  Future<void> delete(Exercise exercise) {
+    return _realm.writeAsync(() {
+      return _realm.delete(exercise);
+    });
   }
 }

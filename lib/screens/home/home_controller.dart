@@ -20,7 +20,7 @@ class HomeController extends _$HomeController {
 
     ref.onDispose(() => subscription.cancel());
 
-    return const HomeState();
+  return const HomeState();
   }
 
   Future<bool> toggleCompletionDate(ObjectId exerciseId, DateTime date) async {
@@ -80,15 +80,15 @@ class HomeController extends _$HomeController {
     );
   }
 
-  void deleteExercise(String exerciseId) {
+  Future<void> deleteExercise(Exercise exercise) {
     // TODO(@emilyhodev): delete exercise from the DB
-
+    return ref.read(exerciseRealmProvider).delete(exercise);
     // 1. find the index of the exercise
-    final exercises = [...state.exercises];
-    final index = exercises.indexWhere((e) => e.id == exerciseId);
-    if (index == -1) return;
+    // final exercises = [...state.exercises];
+    // final index = exercises.indexWhere((e) => e.id == exerciseId);
+    // if (index == -1) return;
     //remove exercise
-    exercises.removeAt(index);
-    state = state.copyWith(exercises: exercises);
+    // exercises.removeAt(index);
+    // state = state.copyWith(exercises: exercises);
   }
 }

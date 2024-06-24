@@ -16,11 +16,15 @@ class HomeScreen2 extends StatelessWidget {
             homeControllerProvider.select((state) => state.exercises),
           );
 
-          return ListView.builder(
-            itemCount: exercises.length,
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ExerciseCard(exercise: exercises[index]),
+          return Container(
+            color: Colors.green[100],
+            child: ListView.builder(
+              itemCount: exercises.length,
+              itemBuilder: (context, index) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: ExerciseCard(exercise: exercises[index]),
+              ),
             ),
           );
         },

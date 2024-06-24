@@ -42,7 +42,9 @@ class ExerciseCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(exercise.title),
+                      child: Text(exercise.title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20)),
                     ),
                     Text(
                       "Total: ${exercise.workTime.toTimeString()}",
@@ -80,7 +82,7 @@ class ExerciseCard extends StatelessWidget {
                         onManualUpdate: () => _showUpdateDialog(context),
                         onDelete: () => ref
                             .read(homeControllerProvider.notifier)
-                            .deleteExercise(exercise.id),
+                            .deleteExercise(exercise),
                       ),
                     );
                   },
@@ -93,10 +95,13 @@ class ExerciseCard extends StatelessWidget {
               width: double.infinity,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.greenAccent,
+                  backgroundColor: Color.fromARGB(
+                      255, 150 - (exercise.workTime.toInt() * 5), 240, 197),
                 ),
-                child: const Text("Start Now"),
-                onPressed: () => context.push(AppRoute.fullScreenTimer.path),
+                child: const Text("Start Now",
+                    style: TextStyle(color: Color.fromARGB(255, 3, 93, 8))),
+                onPressed: () => context.push(AppRoute.fullScreenTimer.path,
+                    extra: exercise),
               ),
             ),
           ],
